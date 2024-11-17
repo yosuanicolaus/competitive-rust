@@ -3,7 +3,7 @@ use std::io::Read;
 use std::str::FromStr;
 
 pub struct Input<'s> {
-    input: &'s mut dyn Read,
+    input: &'s mut (dyn Read + Send),
     buf: Vec<u8>,
     at: usize,
     buf_read: usize,
@@ -32,7 +32,7 @@ macro_rules! read_impl {
 impl<'s> Input<'s> {
     const DEFAULT_BUF_SIZE: usize = 4096;
 
-    pub fn new(input: &'s mut dyn Read) -> Self {
+    pub fn new(input: &'s mut (dyn Read + Send)) -> Self {
         Self {
             input,
             buf: vec![0; Self::DEFAULT_BUF_SIZE],
@@ -41,7 +41,7 @@ impl<'s> Input<'s> {
         }
     }
 
-    pub fn new_with_size(input: &'s mut dyn Read, buf_size: usize) -> Self {
+    pub fn new_with_size(input: &'s mut (dyn Read + Send), buf_size: usize) -> Self {
         Self {
             input,
             buf: vec![0; buf_size],
@@ -103,6 +103,12 @@ impl<'s> Input<'s> {
     //noinspection RsSelfConvention
     pub fn is_exhausted(&mut self) -> bool {
         self.peek().is_none()
+    }
+
+    //noinspection RsSelfConvention
+    pub fn is_empty(&mut self) -> bool {
+        self.skip_whitespace();
+        self.is_exhausted()
     }
 
     pub fn read<T: Readable>(&mut self) -> T {
