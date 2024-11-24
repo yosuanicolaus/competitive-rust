@@ -1,4 +1,4 @@
-//{"name":"A - 123233","group":"AtCoder - AtCoder Beginner Contest 380","url":"https://atcoder.jp/contests/abc380/tasks/abc380_a","interactive":false,"timeLimit":2000,"tests":[{"input":"123233\n","output":"Yes\n"},{"input":"123234\n","output":"No\n"},{"input":"323132\n","output":"Yes\n"},{"input":"500000\n","output":"No\n"}],"testType":"single","input":{"type":"stdin","fileName":null,"pattern":null},"output":{"type":"stdout","fileName":null,"pattern":null},"languages":{"java":{"taskClass":"A123233"}}}
+// {"name":"A. Watermelon","group":"Codeforces - Codeforces Beta Round 4 (Div. 2 Only)","url":"https://codeforces.com/problemset/problem/4/A","interactive":false,"timeLimit":1000,"tests":[{"input":"8\n","output":"YES\n"}],"testType":"single","input":{"type":"stdin","fileName":null,"pattern":null},"output":{"type":"stdout","fileName":null,"pattern":null},"languages":{"java":{"taskClass":"AWatermelon"}}}
 
 use algo_lib::io::input::Input;
 use algo_lib::io::output::Output;
@@ -9,19 +9,13 @@ use algo_lib::misc::test_type::TestType;
 type PreCalc = ();
 
 fn solve(input: &mut Input, out: &mut Output, _test_case: usize, _data: &mut PreCalc) {
-    let mut n = input.read_size();
+    let foo = input.read_int();
 
-    let mut d = [0; 6];
-    for i in 0..6 {
-        d[i] = n % 10;
-        n /= 10;
-    }
-    d.sort();
-    out.print_line(if d == [1, 2, 2, 3, 3, 3] {
-        "Yes"
+    if foo >= 4 && foo % 2 == 0 {
+        out.print("YES");
     } else {
-        "No"
-    });
+        out.print("NO");
+    }
 }
 
 pub static TEST_TYPE: TestType = TestType::Single;
