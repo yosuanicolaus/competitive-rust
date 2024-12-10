@@ -1,7 +1,6 @@
 //$JSON
 
 $SOLVE
-
 //START MAIN
 mod tester;
 fn main() {
