@@ -5,16 +5,11 @@ use std::collections::VecDeque;
 use algo_lib::io::input::Input;
 use algo_lib::io::output::Output;
 
-fn traverse(
-    land: &[Vec<char>],
-    start_y: usize,
-    start_x: usize,
-    visited: &mut [Vec<bool>],
-    total_area: &mut i32,
-    total_fence: &mut i32,
-) {
+fn bfs_cost(land: &[Vec<char>], start_y: usize, start_x: usize, visited: &mut [Vec<bool>]) -> i32 {
     let curr_land = land[start_y][start_x];
     let mut queue: VecDeque<(usize, usize)> = VecDeque::from([(start_y, start_x)]);
+    let mut total_area = 0;
+    let mut total_fence = 0;
 
     while !queue.is_empty() {
         let (y, x) = queue.pop_front().unwrap();
@@ -23,10 +18,9 @@ fn traverse(
         }
 
         visited[y][x] = true;
-        *total_area += 1;
+        total_area += 1;
 
         // add fence everytime a corner is detected
-        // TODO: fence calculation for part 2, real test input is wrong :(
         let nb_n = y > 0 && land[y - 1][x] == curr_land;
         let nb_e = x + 1 < land[0].len() && land[y][x + 1] == curr_land;
         let nb_s = y + 1 < land.len() && land[y + 1][x] == curr_land;
@@ -37,33 +31,35 @@ fn traverse(
         let nb_sw = y + 1 < land.len() && x > 0 && land[y + 1][x - 1] == curr_land;
         let nb_nw = y > 0 && x > 0 && land[y - 1][x - 1] == curr_land;
 
-        if !nb_ne && (nb_n == nb_e) {
-            *total_fence += 1;
+        if (!nb_n && !nb_e) || (nb_n && nb_e && !nb_ne) {
+            total_fence += 1;
         }
-        if !nb_se && (nb_s == nb_e) {
-            *total_fence += 1;
+        if (!nb_s && !nb_e) || (nb_s && nb_e && !nb_se) {
+            total_fence += 1;
         }
-        if !nb_sw && (nb_s == nb_w) {
-            *total_fence += 1;
+        if (!nb_s && !nb_w) || (nb_s && nb_w && !nb_sw) {
+            total_fence += 1;
         }
-        if !nb_nw && (nb_n == nb_w) {
-            *total_fence += 1;
+        if (!nb_n && !nb_w) || (nb_n && nb_w && !nb_nw) {
+            total_fence += 1;
         }
 
         // traverse all possible neighbors
-        if y > 0 && land[y - 1][x] == curr_land && !visited[y - 1][x] {
+        if y > 0 && land[y - 1][x] == curr_land {
             queue.push_back((y - 1, x));
         }
-        if y + 1 < land.len() && land[y + 1][x] == curr_land && !visited[y + 1][x] {
+        if y + 1 < land.len() && land[y + 1][x] == curr_land {
             queue.push_back((y + 1, x));
         }
-        if x > 0 && land[y][x - 1] == curr_land && !visited[y][x - 1] {
+        if x > 0 && land[y][x - 1] == curr_land {
             queue.push_back((y, x - 1));
         }
-        if x + 1 < land[0].len() && land[y][x + 1] == curr_land && !visited[y][x + 1] {
+        if x + 1 < land[0].len() && land[y][x + 1] == curr_land {
             queue.push_back((y, x + 1));
         }
     }
+
+    total_area * total_fence
 }
 
 fn solve(input: &mut Input, output: &mut Output) {
@@ -81,10 +77,7 @@ fn solve(input: &mut Input, output: &mut Output) {
     for y in 0..land.len() {
         for x in 0..land[0].len() {
             if !visited[y][x] {
-                let mut total_area = 0;
-                let mut total_fence = 0;
-                traverse(&land, y, x, &mut visited, &mut total_area, &mut total_fence);
-                ans += total_area * total_fence;
+                ans += bfs_cost(&land, y, x, &mut visited);
             }
         }
     }
