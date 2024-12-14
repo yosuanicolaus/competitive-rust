@@ -79,7 +79,8 @@ pub(crate) fn run_tests() -> bool {
                             let mut file = std::fs::File::open(&path).unwrap();
                             let started = std::time::Instant::now();
                             let mut output = Vec::new();
-                            let is_exhausted = crate::run(Input::new(&mut file), Output::new(&mut output));
+                            let is_exhausted =
+                                crate::run(Input::new(&mut file), Output::new(&mut output));
                             let res = started.elapsed();
                             println!("{}", String::from_utf8_lossy(&output));
                             (output, res, is_exhausted)

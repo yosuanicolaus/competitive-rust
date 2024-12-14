@@ -18,9 +18,9 @@ impl Solution {
     }
 }
 
-fn solve<T>(input: T, output: &mut Output) {
+fn solve<T>(input: T, out: &mut Output) {
     let res = Solution::max_two_events(input);
-    output.print_line(res);
+    out.println(res);
 }
 
 pub(crate) fn run(mut input: Input, mut output: Output) -> bool {

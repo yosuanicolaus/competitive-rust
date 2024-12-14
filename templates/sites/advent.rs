@@ -1,7 +1,7 @@
 use algo_lib::io::input::Input;
 use algo_lib::io::output::Output;
 
-fn solve(input: &mut Input, output: &mut Output) {
+fn solve(input: &mut Input, out: &mut Output) {
     $CARET
 }
 

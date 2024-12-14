@@ -5,7 +5,7 @@ use algo_lib::misc::test_type::TestType;
 
 type PreCalc = ();
 
-fn solve(input: &mut Input, output: &mut Output, _test_case: usize, _data: &mut PreCalc) {
+fn solve(input: &mut Input, out: &mut Output, _test_case: usize, _data: &mut PreCalc) {
     $CARET
 }
 

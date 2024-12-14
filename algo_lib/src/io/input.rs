@@ -150,13 +150,12 @@ impl<'s> Input<'s> {
     }
 
     fn read_integer<T: FromStr>(&mut self) -> T
-        where
-            <T as FromStr>::Err: Debug,
+    where
+        <T as FromStr>::Err: Debug,
     {
         let res = self.read_string();
         res.parse::<T>().unwrap()
     }
-
 
     pub fn read_char(&mut self) -> char {
         self.skip_whitespace();

@@ -6,10 +6,10 @@ use std::sync::MutexGuard;
 
 type PreCalc = ();
 
-fn solve(mut input: MutexGuard<Input>, output: &mut Output, test_case: usize, _data: &PreCalc) {
+fn solve(mut input: MutexGuard<Input>, out: &mut Output, test_case: usize, _data: &PreCalc) {
     $CARET
     drop(input);
-    output.print_line((format!("Case #{}:", test_case),));
+    out.println((format!("Case #{}:", test_case),));
 }
 
 pub static TASK_TYPE: TaskType = TaskType::Classic;

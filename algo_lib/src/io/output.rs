@@ -41,7 +41,7 @@ impl<'s> Output<'s> {
         s.write(self);
     }
 
-    pub fn print_line<T: Writable>(&mut self, s: T) {
+    pub fn println<T: Writable>(&mut self, s: T) {
         self.print(s);
         self.put(b'\n');
     }
