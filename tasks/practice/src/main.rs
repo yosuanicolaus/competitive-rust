@@ -9,7 +9,7 @@ use algo_lib::misc::test_type::TestType;
 type PreCalc = ();
 
 fn solve(_input: &mut Input, _out: &mut Output, _test_case: usize, _data: &mut PreCalc) {
-    _out.print_line("Hello, world!");
+    _out.println("Hello, world!");
 }
 
 pub static TEST_TYPE: TestType = TestType::Single;
