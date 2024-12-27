@@ -65,6 +65,6 @@ pub(crate) fn run(mut input: Input, mut output: Output) -> bool {
 //START MAIN
 mod tester;
 fn main() {
-    tester::run_tests();
+    tester::run_main();
 }
 //END MAIN

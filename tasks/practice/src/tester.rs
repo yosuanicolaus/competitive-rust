@@ -1,7 +1,9 @@
+use std::env;
+
 use algo_lib::io::input::Input;
 use algo_lib::io::output::Output;
 
-pub fn check(expected: &mut &[u8], actual: &mut &[u8]) -> Result<(), String> {
+fn check(expected: &mut &[u8], actual: &mut &[u8]) -> Result<(), String> {
     let mut expected = Input::new(expected);
     let mut actual = Input::new(actual);
     let mut token_num = 0usize;
@@ -30,7 +32,15 @@ pub fn check(expected: &mut &[u8], actual: &mut &[u8]) -> Result<(), String> {
     Ok(())
 }
 
-pub(crate) fn run_tests() -> bool {
+fn run_single() {
+    let mut sin = std::io::stdin();
+    let input = algo_lib::io::input::Input::new(&mut sin);
+    let mut stdout = std::io::stdout();
+    let output = algo_lib::io::output::Output::new(&mut stdout);
+    crate::run(input, output);
+}
+
+fn run_tests() -> bool {
     let blue = "\x1B[34m";
     let red = "\x1B[31m";
     let green = "\x1B[32m";
@@ -147,4 +157,13 @@ pub(crate) fn run_tests() -> bool {
         );
     }
     test_failed == 0
+}
+
+pub(crate) fn run_main() {
+    let args: Vec<String> = env::args().collect();
+    if args.iter().any(|x| x == "single") {
+        run_single();
+    } else {
+        run_tests();
+    }
 }

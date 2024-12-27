@@ -4,6 +4,6 @@ $SOLVE
 //START MAIN
 mod tester;
 fn main() {
-    tester::run_tests();
+    tester::run_main();
 }
 //END MAIN
