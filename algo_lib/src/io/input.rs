@@ -123,7 +123,8 @@ impl<'s> Input<'s> {
         res
     }
 
-    fn read_string(&mut self) -> String {
+    /// use with caution: may raise panic! if input is empty
+    pub fn read_word(&mut self) -> String {
         match self.next_token() {
             None => {
                 panic!("Input exhausted");
@@ -153,7 +154,7 @@ impl<'s> Input<'s> {
     where
         <T as FromStr>::Err: Debug,
     {
-        let res = self.read_string();
+        let res = self.read_word();
         res.parse::<T>().unwrap()
     }
 
@@ -162,12 +163,16 @@ impl<'s> Input<'s> {
         self.get().unwrap().into()
     }
 
-    read_impl!(u32, read_unsigned, read_unsigned_vec);
-    read_impl!(u64, read_u64, read_u64_vec);
-    read_impl!(usize, read_size, read_size_vec, read_size_pair_vec);
-    read_impl!(i32, read_int, read_int_vec, read_int_pair_vec);
-    read_impl!(i64, read_long, read_long_vec, read_long_pair_vec);
-    read_impl!(i128, read_i128, read_i128_vec);
+    pub fn read_vec_char(&mut self) -> Vec<char> {
+        self.read_line().chars().collect()
+    }
+
+    read_impl!(u32, read_unsigned, read_vec_unsigned);
+    read_impl!(u64, read_u64, read_vec_u64);
+    read_impl!(usize, read_size, read_vec_size, read_vec_pair_size);
+    read_impl!(i32, read_int, read_vec_int, read_vec_pair_int);
+    read_impl!(i64, read_long, read_vec_long, read_vec_pair_long);
+    read_impl!(i128, read_i128, read_vec_i128);
 
     fn refill_buffer(&mut self) -> bool {
         if self.at == self.buf_read {
