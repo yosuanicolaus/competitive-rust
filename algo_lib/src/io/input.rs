@@ -167,6 +167,44 @@ impl<'s> Input<'s> {
         self.read_line().chars().collect()
     }
 
+    pub fn read_leetcode_vec_int(&mut self) -> Vec<i32> {
+        // e.g. `[1,3,4,5]`
+        let line = self.read_line().replace(" ", "");
+        line[1..line.len() - 1]
+            .split(',')
+            .map(|x| x.parse::<i32>().unwrap())
+            .collect()
+    }
+
+    pub fn read_leetcode_vec_str(&mut self) -> Vec<String> {
+        // e.g. `["10","0","1"]`
+        let line = self.read_line().replace(" ", "");
+        line[1..line.len() - 1]
+            .split(',')
+            .map(|x| x[1..x.len()-1].parse::<String>().unwrap())
+            .collect()
+    }
+
+    pub fn read_leetcode_grid(&mut self) -> Vec<Vec<i32>> {
+        // e.g. `[[1,3,2],[4,5,3]]`
+        let line = self.read_line().replace(" ", "");
+        line.split("],[")
+            .map(|grid_line| {
+                grid_line
+                    .replace("[", "")
+                    .replace("]", "")
+                    .split(",")
+                    .map(|item| item.parse::<i32>().unwrap())
+                    .collect::<Vec<i32>>()
+            })
+            .collect()
+    }
+    
+    pub fn read_leetcode_str(&mut self) -> String {
+        // e.g. `"abcde"`
+        self.read_line().replace('"', "")
+    }
+
     read_impl!(u32, read_unsigned, read_vec_unsigned);
     read_impl!(u64, read_u64, read_vec_u64);
     read_impl!(usize, read_size, read_vec_size, read_vec_pair_size);
