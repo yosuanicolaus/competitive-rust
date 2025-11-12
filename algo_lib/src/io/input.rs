@@ -150,6 +150,14 @@ impl<'s> Input<'s> {
         res
     }
 
+    pub fn read_raw(&mut self) -> String {
+        let mut res = String::new();
+        while let Some(c) = self.get() {
+            res.push(c.into());
+        }
+        res
+    }
+
     fn read_integer<T: FromStr>(&mut self) -> T
     where
         <T as FromStr>::Err: Debug,
@@ -181,7 +189,7 @@ impl<'s> Input<'s> {
         let line = self.read_line().replace(" ", "");
         line[1..line.len() - 1]
             .split(',')
-            .map(|x| x[1..x.len()-1].parse::<String>().unwrap())
+            .map(|x| x[1..x.len() - 1].parse::<String>().unwrap())
             .collect()
     }
 
@@ -199,7 +207,7 @@ impl<'s> Input<'s> {
             })
             .collect()
     }
-    
+
     pub fn read_leetcode_str(&mut self) -> String {
         // e.g. `"abcde"`
         self.read_line().replace('"', "")
